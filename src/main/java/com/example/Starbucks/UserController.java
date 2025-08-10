@@ -9,10 +9,10 @@ import io.jsonwebtoken.*;
 @RestController
 public class UserController {
 
-    private final UserDataRepository userDataRepository;
+    private final UserRepository userDataRepository;
     private final JwtUtil jwtUtil;
 
-    public UserController(UserDataRepository userDataRepository, JwtUtil jwtUtil) {
+    public UserController(UserRepository userDataRepository, JwtUtil jwtUtil) {
         this.userDataRepository = userDataRepository;
         this.jwtUtil = jwtUtil;
     }
