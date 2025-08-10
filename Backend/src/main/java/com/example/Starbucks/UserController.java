@@ -38,8 +38,8 @@ public class UserController {
         userDataRepository.save(user);
 
         Response response = new Response();
-        response.setUserData(user.getUserData().getUserEmail(), user.getUserData().getUserName());
-        response.setUserToken(jwtUtil.generateToken(user.getUserData().getUserEmail()));
+        response.setUserData(user.getUserEmail(), user.getUserName());
+        response.setUserToken(jwtUtil.generateToken(user.getUserEmail()));
         response.setMessage("Register Successful :)");
 
         return ResponseEntity.ok(response);
@@ -48,7 +48,7 @@ public class UserController {
 
     @PostMapping("/login-user")
     public ResponseEntity<Object> login(@RequestBody User user) {
-        if (user.getUserData() == null || user.getUserData().getUserEmail() == null) {
+        if (user.getUserEmail() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is required!");
         }
         if (user.getUserPassword() == null) {
@@ -64,12 +64,12 @@ public class UserController {
 
         // !!! Временная проверка — сравнение открытых паролей
         // В будущем нужно сделать BCrypt
-        if (!user.getUserPassword().equals(existingUser.getPassword())) {
+        if (!user.getUserPassword().equals(existingUser.getUserPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong password!");
         }
 
         //проверочка
-        System.out.println(user.getUserData().getUserEmail());
+        System.out.println(user.getUserEmail());
         System.out.println(user.getUserPassword());
 
         // Если всё ок — создаём токен

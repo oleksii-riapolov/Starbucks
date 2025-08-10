@@ -1,12 +1,12 @@
 package com.example.Starbucks;
 
 public class Response {
-    private UserData userData;
+    private User user;
     private String userToken;
     private String message;
 
     public Object getUserData() {
-        return userData;
+        return user;
     }
 
     public String getUserToken() {
@@ -18,9 +18,9 @@ public class Response {
     }
 
     public void setUserData(String userEmail, String userName) {
-        this.userData = new UserData();
-        userData.setUserEmail(userEmail);
-        userData.setUserName(userName);
+        this.user = new User();
+        user.setUserEmail(userEmail);
+        user.setUserName(userName);
     }
 
     public void setUserToken(String userToken) {
