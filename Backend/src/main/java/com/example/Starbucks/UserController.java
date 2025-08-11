@@ -9,13 +9,13 @@ import io.jsonwebtoken.*;
 @RestController
 public class UserController {
 
-    /*private final UserRepository userDataRepository;
+    //private final UserRepository userDataRepository;
     private final JwtUtil jwtUtil;
 
-    public UserController(UserRepository userDataRepository, JwtUtil jwtUtil) {
-        this.userDataRepository = userDataRepository;
+    public UserController(/*UserRepository userDataRepository, */JwtUtil jwtUtil) {
+        //this.userDataRepository = userDataRepository;
         this.jwtUtil = jwtUtil;
-    }*/
+    }
 
     @PostMapping("/add-user")
     public ResponseEntity<Object> register(@RequestBody User user) {
@@ -41,8 +41,10 @@ public class UserController {
 
         Response response = new Response();
         response.setUserData(user.getUserEmail(), user.getUserName());
-        //response.setUserToken(jwtUtil.generateToken(user.getUserEmail()));
+        response.setUserToken(jwtUtil.generateToken(user.getUserEmail(), user.getUserName()));
         response.setMessage("Register Successful :)");
+
+        System.out.println("User Token: " + response.getUserToken());
 
         return ResponseEntity.ok(response);
     }
