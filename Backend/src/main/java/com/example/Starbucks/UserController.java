@@ -9,11 +9,9 @@ import io.jsonwebtoken.*;
 @RestController
 public class UserController {
 
-    //private final UserRepository userDataRepository;
     private final JwtUtil jwtUtil;
 
-    public UserController(/*UserRepository userDataRepository, */JwtUtil jwtUtil) {
-        //this.userDataRepository = userDataRepository;
+    public UserController(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
@@ -26,25 +24,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong DATA!");
         }
 
-
-        // Unknown
-        /*if (userDataRepository.existsByUserEmail(user.getUserEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists!");
-        }*/
-
         //проверочка
         System.out.println(user.getUserName());
         System.out.println(user.getUserEmail());
         System.out.println(user.getUserPassword());
 
-        /*userDataRepository.save(user);*/
 
         Response response = new Response();
         response.setUserData(user.getUserEmail(), user.getUserName());
         response.setUserToken(jwtUtil.generateToken(user.getUserEmail(), user.getUserName()));
         response.setMessage("Register Successful :)");
 
-        System.out.println("User Token: " + response.getUserToken());
+        System.out.println(response.getUserToken());
 
         return ResponseEntity.ok(response);
     }
@@ -59,31 +50,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password is required!");
         }
 
-        // Ищем пользователя по email
-        /*User existingUser = userDataRepository.findByUserEmail(user.getUserEmail());
-
-        if (existingUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
-        }
-
-        // !!! Временная проверка — сравнение открытых паролей
-        // В будущем нужно сделать BCrypt
-        if (!user.getUserPassword().equals(existingUser.getUserPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong password!");
-        }*/
 
         //проверочка
         System.out.println(user.getUserEmail());
         System.out.println(user.getUserPassword());
 
+        //TODO: check data in DB
+
         // Если всё ок — создаём токен
         Response response = new Response();
         response.setUserData(user.getUserEmail(), user.getUserName());
-        //before:
-        //response.setUserData(existingUser.getUserEmail(), existingUser.getUserName());
-
-
-        //response.setUserToken(jwtUtil.generateToken(existingUser.getUserEmail()));
+        response.setUserToken(jwtUtil.generateToken(user.getUserEmail(), user.getUserName()));
         response.setMessage("Login Successful :)");
 
         return ResponseEntity.ok(response);
